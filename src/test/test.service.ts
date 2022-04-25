@@ -19,7 +19,7 @@ export class TestService{
     async getById(id: number){
         let test = null;
         await this.repo.findOne({
-            relations: ['questions'],
+            relations: ['questions', 'students'],
             where: {
                 id: id
             }
