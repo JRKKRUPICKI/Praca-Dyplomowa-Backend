@@ -9,7 +9,9 @@ export class AnswerService{
     constructor(@InjectRepository(Answer) private repo: Repository<Answer>){}
 
     getAll(){
-        return this.repo.find();
+        return this.repo.find({
+            relations: ['question']
+        });
     }
 
     async getById(id: number){

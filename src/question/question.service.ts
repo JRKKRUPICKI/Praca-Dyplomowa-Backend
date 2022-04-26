@@ -17,6 +17,7 @@ export class QuestionService{
     async getById(id: number){
         let question = null;
         await this.repo.findOne({
+            relations: ['answers'],
             where: {
                 id: id
             }
