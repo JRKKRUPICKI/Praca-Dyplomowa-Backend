@@ -65,4 +65,17 @@ export class TeacherService{
         delete teacher.password;
         return teacher;
     }
+
+    async login(email: string, password: string){
+        let teacher = null;
+        await this.repo.findOne({
+            where: {
+                email: email,
+                password: password
+            }
+        }).then(t => teacher = t);
+        if(!teacher) throw new HttpException('Incorrent email or password', HttpStatus.UNAUTHORIZED);
+        delete teacher.password;
+        return teacher;
+    }
 }
