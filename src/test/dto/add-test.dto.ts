@@ -7,4 +7,13 @@ export class AddTestDto{
 
     @IsNumber()
     teacherId: number;
+
+    @IsNumber()
+    time: number;
+
+    @IsNumber()
+    loginTimeStart: number;
+
+    @IsNumber()
+    loginTimeEnd: number;
 }

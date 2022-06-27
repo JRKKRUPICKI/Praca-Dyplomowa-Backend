@@ -28,7 +28,7 @@ export class TestService{
         return test;
     }
 
-    async add(name: string, teacherId: number){
+    async add(name: string, teacherId: number, time: number, loginTimeStart: number, loginTimeEnd: number){
         const teacherRepository = getRepository(Teacher);
         let teacher = null;
         await teacherRepository.findOne({
@@ -48,7 +48,7 @@ export class TestService{
             }
         }).then(t => test = t);
         if(test) throw new HttpException('Test already exists', HttpStatus.BAD_REQUEST);
-        test = this.repo.create({name, teacher});
+        test = this.repo.create({name, teacher, time, loginTimeStart, loginTimeEnd});
         return this.repo.save(test);
     }
 

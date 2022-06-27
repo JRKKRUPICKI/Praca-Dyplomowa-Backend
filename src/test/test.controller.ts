@@ -23,7 +23,7 @@ export class TestController{
     // POST /test
     @Post()
     addTest(@Body() body: AddTestDto){
-        return this.testService.add(body.name, body.teacherId);
+        return this.testService.add(body.name, body.teacherId, body.time, body.loginTimeStart, body.loginTimeEnd);
     }
 
     // DELETE /test/1

@@ -8,8 +8,21 @@ export class Test{
     @PrimaryGeneratedColumn()
     id: number;
 
+    // Nazwa testu
     @Column()
     name: string;
+
+    // Czas trwania testu
+    @Column()
+    time: number;
+
+    // Czas w którym można się zalogować do testu - początek
+    @Column()
+    loginTimeStart: number;
+
+    // Czas w którym można się zalogować do testu - koniec
+    @Column()
+    loginTimeEnd: number;
 
     @ManyToOne(() => Teacher, teacher => teacher.tests, {
         onDelete: 'CASCADE'
