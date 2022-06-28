@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { GetTestDto } from "src/test/dto/get-test.dto";
 import { AddQuestionDto } from "./dto/add-question.dto";
 import { EditQuestionDto } from "./dto/edit-question.dto";
 import { GetQuestionDto } from "./dto/get-question.dto";
@@ -35,6 +36,12 @@ export class QuestionController{
     // PATCH /question/1
     @Patch(':id')
     editQuestion(@Param() params: GetQuestionDto, @Body() body: EditQuestionDto){
-        return this.questionService.edit(params.id, body.name);
+        return this.questionService.edit(params.id, body.name, body.type);
+    }
+
+    // GET /question/test/1
+    @Get('test/:id')
+    getQuestionsByTestId(@Param() params: GetTestDto){
+        return this.questionService.getByTestId(params.id);
     }
 }

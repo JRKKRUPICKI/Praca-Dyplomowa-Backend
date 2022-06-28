@@ -61,7 +61,7 @@ export class QuestionService{
         this.repo.remove(question);
     }
 
-    async edit(id: number, name: string){
+    async edit(id: number, name: string, type: boolean){
         let question = null;
         await this.repo.findOne({
             relations: ['test'],
@@ -83,6 +83,18 @@ export class QuestionService{
         }).then(q => questions = q);
         if(questions.length > 0) throw new HttpException('Question already exists', HttpStatus.BAD_REQUEST);
         question.name = name;
+        question.type = type;
         return this.repo.save(question);
+    }
+
+    getByTestId(testId: number){
+        return this.repo.find({
+            relations: ['test', 'answers'],
+            where: {
+                test: {
+                    id: testId
+                }
+            }
+        });
     }
 }

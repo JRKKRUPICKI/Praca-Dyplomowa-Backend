@@ -76,4 +76,20 @@ export class StudentService{
         student.password = password;
         return this.repo.save(student);
     }
+
+    async login(login: string, password: string, testId: number){
+        let student = null;
+        await this.repo.findOne({
+            where: {
+                login: login,
+                password: password,
+                test: {
+                    id: testId
+                }
+            }
+        }).then(s => student = s);
+        if(!student) throw new HttpException('Incorrent login or password', HttpStatus.UNAUTHORIZED);
+        delete student.password;
+        return student;
+    }
 }

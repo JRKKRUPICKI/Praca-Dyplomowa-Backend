@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/commo
 import { AddStudentDto } from "./dto/add-student.dto";
 import { EditStudentDto } from "./dto/edit-student.dto";
 import { GetStudentDto } from "./dto/get-student.dto";
+import { LoginStudentDto } from "./dto/login-student.dto";
 import { StudentService } from "./student.service";
 
 @Controller('student')
@@ -36,5 +37,11 @@ export class StudentController{
     @Patch(':id')
     editStudent(@Param() params: GetStudentDto, @Body() body: EditStudentDto){
         return this.studentService.edit(params.id, body.login, body.password);
+    }
+
+    // POST /student/login
+    @Post('login')
+    loginStudent(@Body() body: LoginStudentDto){
+        return this.studentService.login(body.login, body.password, body.testId);
     }
 }
