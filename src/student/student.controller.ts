@@ -36,7 +36,7 @@ export class StudentController{
     // PATCH /student/1
     @Patch(':id')
     editStudent(@Param() params: GetStudentDto, @Body() body: EditStudentDto){
-        return this.studentService.edit(params.id, body.login, body.password);
+        return this.studentService.edit(params.id, body.login, body.password, body.active);
     }
 
     // POST /student/login

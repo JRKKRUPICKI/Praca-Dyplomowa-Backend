@@ -12,6 +12,9 @@ export class Student{
     @Column()
     password: string;
 
+    @Column({default: true})
+    active: boolean;
+
     @ManyToOne(() => Test, test => test.students, {
         onDelete: 'CASCADE'
     })

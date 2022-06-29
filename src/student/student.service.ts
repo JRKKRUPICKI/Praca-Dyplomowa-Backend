@@ -52,7 +52,7 @@ export class StudentService{
         this.repo.remove(student);
     }
 
-    async edit(id: number, login: string, password: string){
+    async edit(id: number, login: string, password: string, active: boolean){
         let student = null;
         await this.repo.findOne({
             relations: ['test'],
@@ -74,6 +74,7 @@ export class StudentService{
         if(students.length > 0) throw new HttpException('Student already exists', HttpStatus.BAD_REQUEST);
         student.login = login;
         student.password = password;
+        student.active = active;
         return this.repo.save(student);
     }
 
@@ -89,7 +90,11 @@ export class StudentService{
             }
         }).then(s => student = s);
         if(!student) throw new HttpException('Incorrent login or password', HttpStatus.UNAUTHORIZED);
+        if(!student.active)  throw new HttpException('Inactive student account', HttpStatus.UNAUTHORIZED);
+        student.active = false;
+        await this.repo.save(student);
         delete student.password;
+        delete student.active;
         return student;
     }
 }
