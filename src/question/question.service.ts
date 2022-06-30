@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Test } from "src/test/test.entity";
-import { getRepository, Repository } from "typeorm";
+import { getRepository, ILike, Not, Repository } from "typeorm";
 import { Question } from "./question.entity";
 
 @Injectable()
@@ -73,12 +73,14 @@ export class QuestionService{
         const test = question.test;
         let questions = [];
         await this.repo.find({
-            relations: ['test'],
+            //relations: ['test'],
             where: {
-                name: name,
+                // case insensitive
+                name: ILike(name),
                 test: {
                     id: test.id
-                }
+                },
+                id: Not(id)
             }
         }).then(q => questions = q);
         if(questions.length > 0) throw new HttpException('Question already exists', HttpStatus.BAD_REQUEST);
