@@ -35,6 +35,6 @@ export class TestController{
     // PATCH /test/1
     @Patch(':id')
     editTest(@Param() params: GetTestDto, @Body() body: EditTestDto){
-        return this.testService.edit(params.id, body.name);
+        return this.testService.edit(params.id, body.name, body.time, body.loginTimeStart, body.loginTimeEnd);
     }
 }

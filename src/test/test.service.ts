@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Teacher } from "src/teacher/teacher.entity";
-import { getRepository, Repository } from "typeorm";
+import { getRepository, ILike, Not, Repository } from "typeorm";
 import { Test } from "./test.entity";
 
 @Injectable()
@@ -63,7 +63,7 @@ export class TestService{
         this.repo.remove(test);
     }
 
-    async edit(id: number, name: string){
+    async edit(id: number, name: string, time: number, loginTimeStart: number, loginTimeEnd: number){
         let test = null;
         await this.repo.findOne({
             relations: ['teacher'],
@@ -78,11 +78,15 @@ export class TestService{
             relations: ['teacher'],
             where: {
                 teacher: teacher,
-                name: name
+                name: ILike(name),
+                id: Not(id)
             }
         }).then(t => tests = t);
         if(tests.length > 0) throw new HttpException('Test already exists', HttpStatus.BAD_REQUEST);
         test.name = name;
+        test.time = time;
+        test.loginTimeStart = loginTimeStart;
+        test.loginTimeEnd = loginTimeEnd;
         return this.repo.save(test);
     }
 }

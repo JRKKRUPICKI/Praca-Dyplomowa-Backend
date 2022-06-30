@@ -8,6 +8,17 @@ import { TeacherService } from "./teacher.service";
 @Controller('teacher')
 export class TeacherController{
     constructor(private teacherService: TeacherService){}
+    
+    /*
+    SPOSÓB 1
+    private userService;
+    constructor(userService: UserService){
+        this.userService = userService;
+    }
+
+    SPOSÓB 2
+    constructor(private userService: UserService){}
+    */
 
     // GET /teacher
     @Get()
