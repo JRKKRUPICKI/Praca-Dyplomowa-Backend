@@ -1,4 +1,5 @@
 import { Answer } from "src/answer/answer.entity";
+import { StudentAnswer } from "src/studentAnswer/studentAnswer.entity";
 import { Test } from "src/test/test.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -22,4 +23,7 @@ export class Question{
 
     @OneToMany(() => Answer, answer => answer.question)
     answers: Answer[];
+
+    @OneToMany(() => StudentAnswer, studentAnswer => studentAnswer.question)
+    studentAnswers: StudentAnswer[];
 }

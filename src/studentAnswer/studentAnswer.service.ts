@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { networkInterfaces } from "os";
 import { Answer } from "src/answer/answer.entity";
 import { Question } from "src/question/question.entity";
 import { Student } from "src/student/student.entity";
@@ -98,6 +99,8 @@ export class StudentAnswerService{
         }).then(a => studentAnswer = a);
         if(studentAnswer) throw new HttpException('Student answer already exists', HttpStatus.BAD_REQUEST);
         studentAnswer = this.repo.create({student, test, question, answer});
+        student.status = Date.now();
+        studentRepository.save(student);
         return this.repo.save(studentAnswer);
     }
 
