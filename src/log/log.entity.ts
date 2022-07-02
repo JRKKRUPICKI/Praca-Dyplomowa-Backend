@@ -2,10 +2,10 @@ import { Answer } from "src/answer/answer.entity";
 import { Question } from "src/question/question.entity";
 import { Student } from "src/student/student.entity";
 import { Test } from "src/test/test.entity";
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class StudentAnswer{
+export class Log{
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -28,4 +28,13 @@ export class StudentAnswer{
         onDelete: 'CASCADE'
     })
     answer: Answer;
+
+    @Column()
+    datetime: number;
+
+    // 0 -  odpowiedz wybrana
+    // 1 - odpowiedz zaznaczona
+    // 2 - odpowiedz odznaczona
+    @Column()
+    actionType: number;
 }

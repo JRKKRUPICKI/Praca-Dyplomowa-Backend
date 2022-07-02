@@ -5,17 +5,11 @@ import { Question } from "src/question/question.entity";
 import { Student } from "src/student/student.entity";
 import { Test } from "src/test/test.entity";
 import { getRepository, Repository } from "typeorm";
-import { StudentAnswer } from "./studentAnswer.entity";
+import { Log } from "./log.entity";
 
 @Injectable()
-export class StudentAnswerService{
-    constructor(@InjectRepository(StudentAnswer) private repo: Repository<StudentAnswer>){}
-
-    getAll(){
-        return this.repo.find({
-            relations: ['student', 'test', 'question', 'answer']
-        });
-    }
+export class LogService{
+    constructor(@InjectRepository(Log) private repo: Repository<Log>){}
 
     async getByStudentId(studentId: number){
         const studentRepository = getRepository(Student);
@@ -36,7 +30,7 @@ export class StudentAnswerService{
         });
     }
 
-    async add(studentId: number, testId: number, questionId: number, answerId: number){
+    async add(studentId: number, testId: number, questionId: number, answerId: number, datetime: number, actionType: number){
         const answerRepository = getRepository(Answer);
         let answer = null;
         await answerRepository.findOne({
@@ -79,38 +73,7 @@ export class StudentAnswerService{
         }).then(t => test = t);
         if(!test) throw new HttpException('Test not found', HttpStatus.BAD_REQUEST);
         let studentAnswer = null;
-        await this.repo.findOne({
-            relations: ['student', 'test', 'question', 'answer'],
-            where: {
-                student: {
-                    id: studentId
-                },
-                test: {
-                    id: testId
-                },
-                question: {
-                    id: questionId
-                },
-                answer: {
-                    id: answerId
-                }
-            }
-        }).then(a => studentAnswer = a);
-        if(studentAnswer) throw new HttpException('Student answer already exists', HttpStatus.BAD_REQUEST);
-        studentAnswer = this.repo.create({student, test, question, answer});
-        student.status = Date.now();
-        studentRepository.save(student);
+        studentAnswer = this.repo.create({student, test, question, answer, datetime, actionType});
         return this.repo.save(studentAnswer);
-    }
-
-    async remove(id: number){
-        let studentAnswer = null;
-        await this.repo.findOne({
-            where: {
-                id: id
-            }
-        }).then(sa => studentAnswer = sa);
-        if(!studentAnswer) throw new HttpException('Student answer not found', HttpStatus.BAD_REQUEST);
-        this.repo.remove(studentAnswer);
     }
 }

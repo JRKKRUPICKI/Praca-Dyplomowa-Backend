@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnswerModule } from './answer/answer.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { LogModule } from './log/log.module';
 import { QuestionModule } from './question/question.module';
 import { StudentModule } from './student/student.module';
 import { StudentAnswerModule } from './studentAnswer/studentAnswer.module';
@@ -17,6 +18,7 @@ import { TestModule } from './test/test.module';
     QuestionModule,
     AnswerModule,
     StudentAnswerModule,
+    LogModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',

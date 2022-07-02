@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { GetStudentDto } from "src/student/dto/get-student.dto";
 import { AddStudentAnswerDto } from "./dto/add-studentAnswer.dto";
 import { GetStudentAnswerDto } from "./dto/get-studentAnswer.dto";
