@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -26,6 +26,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
-    - run: |
-        sudo rm -rf /var/www/api
-        sudo cp -r dist /var/www/api
+    - run: sudo rm -rf /var/www/api
+    - run: sudo cp -r dist /var/www/api
