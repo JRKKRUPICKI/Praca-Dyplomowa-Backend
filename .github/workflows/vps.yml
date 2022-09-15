@@ -24,6 +24,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm uninstall sqlite3
+    - run: npm install sqlite3
     - run: npm ci
     - run: npm run build --if-present
     - run: sudo rm -rf /var/www/api
