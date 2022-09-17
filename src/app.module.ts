@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LogModule } from './log/log.module';
 import { QuestionModule } from './question/question.module';
+import { ResultsModule } from './results/results.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { StudentModule } from './student/student.module';
 import { StudentAnswerModule } from './studentAnswer/studentAnswer.module';
@@ -21,6 +22,7 @@ import { TestModule } from './test/test.module';
     StudentAnswerModule,
     LogModule,
     StatisticsModule,
+    ResultsModule,
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
@@ -31,4 +33,4 @@ import { TestModule } from './test/test.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
