@@ -4,7 +4,7 @@ import { Answer } from "src/answer/answer.entity";
 import { Question } from "src/question/question.entity";
 import { Student } from "src/student/student.entity";
 import { Test } from "src/test/test.entity";
-import { getRepository, Repository } from "typeorm";
+import { getRepository, MoreThan, Repository } from "typeorm";
 import { Log } from "./log.entity";
 
 @Injectable()
@@ -19,27 +19,47 @@ export class LogService {
                     id: testId
                 }
             },
-            order: {
-                datetime: "DESC"
-            }
         });
     }
 
     async getByStudentId(studentId: number) {
-        const studentRepository = getRepository(Student);
-        let student = null;
-        await studentRepository.findOne({
-            where: {
-                id: studentId
-            }
-        }).then(s => student = s);
-        if (!student) throw new HttpException('Student not found', HttpStatus.BAD_REQUEST);
         return this.repo.find({
             relations: ['student', 'test', 'question', 'answer'],
             where: {
                 student: {
                     id: studentId
                 }
+            }
+        });
+    }
+
+    async getByTestIdLive(testId: number) {
+        return this.repo.find({
+            relations: ['student', 'test', 'question', 'answer'],
+            where: {
+                test: {
+                    id: testId
+                },
+                datetime: MoreThan(new Date().getTime() - 30000)
+            },
+            order: {
+                datetime: "DESC"
+            }
+        });
+    }
+
+    async getByStudentIdLive(studentId: number) {
+        console.log(new Date().getTime())
+        return this.repo.find({
+            relations: ['student', 'test', 'question', 'answer'],
+            where: {
+                student: {
+                    id: studentId
+                },
+                datetime: MoreThan(new Date().getTime() - 30000)
+            },
+            order: {
+                datetime: "DESC"
             }
         });
     }
