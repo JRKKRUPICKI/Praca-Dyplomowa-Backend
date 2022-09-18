@@ -1,6 +1,6 @@
 import { IsNumberString } from "class-validator";
 
-export class GetLogDto{
+export class GetLogDto {
     @IsNumberString()
-    studentId: number;
+    id: number;
 }

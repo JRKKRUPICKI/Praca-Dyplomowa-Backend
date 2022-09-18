@@ -5,7 +5,7 @@ import { Test } from "src/test/test.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Log{
+export class Log {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -32,7 +32,7 @@ export class Log{
     @Column()
     datetime: number;
 
-    // 0 -  odpowiedz wybrana
+    // 0 - odpowiedz wybrana
     // 1 - odpowiedz zaznaczona
     // 2 - odpowiedz odznaczona
     @Column()
