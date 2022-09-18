@@ -49,7 +49,6 @@ export class LogService {
     }
 
     async getByStudentIdLive(studentId: number) {
-        console.log(new Date().getTime())
         return this.repo.find({
             relations: ['student', 'test', 'question', 'answer'],
             where: {
