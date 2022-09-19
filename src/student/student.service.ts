@@ -1,5 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Log } from "src/log/log.entity";
+import { StudentAnswer } from "src/studentAnswer/studentAnswer.entity";
 import { Test } from "src/test/test.entity";
 import { getRepository, Not, Repository } from "typeorm";
 import { Student } from "./student.entity";
@@ -75,6 +77,29 @@ export class StudentService {
         if (students.length > 0) throw new HttpException('Student already exists', HttpStatus.BAD_REQUEST);
         student.login = login;
         student.password = password;
+        if (student.active !== active && active) {
+            const studentAnswerRepository = getRepository(StudentAnswer);
+            let studentAnswers = null;
+            await studentAnswerRepository.find({
+                where: {
+                    student: {
+                        id: id
+                    }
+                }
+            }).then(sa => studentAnswers = sa);
+            studentAnswerRepository.remove(studentAnswers);
+            student.status = 0;
+            const logRepository = getRepository(Log);
+            let logs = null;
+            await logRepository.find({
+                where: {
+                    student: {
+                        id: id
+                    }
+                }
+            }).then(l => logs = l);
+            logRepository.remove(logs);
+        }
         student.active = active;
         return this.repo.save(student);
     }
