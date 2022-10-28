@@ -107,6 +107,7 @@ export class StudentService {
     async login(login: string, password: string, testId: number) {
         let student = null;
         await this.repo.findOne({
+            relations: ['test'],
             where: {
                 login: login,
                 password: password,
@@ -116,6 +117,11 @@ export class StudentService {
             }
         }).then(s => student = s);
         if (!student) throw new HttpException('Incorrent login or password', HttpStatus.UNAUTHORIZED);
+        const now = new Date();
+        const start = new Date(student.test.loginTimeStart);
+        const end = new Date(student.test.loginTimeEnd);
+        if (now < start) throw new HttpException('Test has not started yet', HttpStatus.UNAUTHORIZED);
+        if (now >= end) throw new HttpException('Time to log in has expired', HttpStatus.UNAUTHORIZED);
         if (!student.active) throw new HttpException('Inactive student account', HttpStatus.UNAUTHORIZED);
         student.active = false;
         await this.repo.save(student);
