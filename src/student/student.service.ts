@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Log } from "src/log/log.entity";
 import { StudentAnswer } from "src/studentAnswer/studentAnswer.entity";
 import { Test } from "src/test/test.entity";
-import { getRepository, Not, Repository } from "typeorm";
+import { getRepository, ILike, Not, Repository } from "typeorm";
 import { Student } from "./student.entity";
 
 @Injectable()
@@ -67,7 +67,7 @@ export class StudentService {
         let students = [];
         await this.repo.find({
             where: {
-                login: login,
+                login: ILike(login),
                 id: Not(id),
                 test: {
                     id: test.id,
