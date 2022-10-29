@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { response } from "express";
 import { Test } from "src/test/test.entity";
 import { getRepository, ILike, Not, Repository } from "typeorm";
 import { Question } from "./question.entity";
@@ -40,7 +39,7 @@ export class QuestionService {
         await this.repo.findOne({
             relations: ['test'],
             where: {
-                name: name,
+                name: ILike(name),
                 test: {
                     id: testId
                 }
@@ -75,7 +74,6 @@ export class QuestionService {
         let questions = [];
         await this.repo.find({
             where: {
-                // case insensitive
                 name: ILike(name),
                 test: {
                     id: test.id
