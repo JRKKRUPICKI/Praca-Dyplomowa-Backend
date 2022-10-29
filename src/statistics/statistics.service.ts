@@ -70,7 +70,10 @@ export class StatisticsService {
         await studentRepository.find({
             where: {
                 active: false,
-                status: 0
+                status: 0,
+                test: {
+                    id: testId
+                }
             }
         }).then(s => startedStudents = s);
         response.startedStudents = startedStudents.length;
@@ -78,7 +81,10 @@ export class StatisticsService {
         await studentRepository.find({
             where: {
                 active: false,
-                status: MoreThan(0)
+                status: MoreThan(0),
+                test: {
+                    id: testId
+                }
             }
         }).then(s => endedStudents = s);
         response.endedStudents = endedStudents.length;
