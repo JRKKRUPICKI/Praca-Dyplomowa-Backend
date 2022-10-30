@@ -6,9 +6,9 @@ import { ResultsService } from "./results.service";
 export class ResultsController {
     constructor(private resultsService: ResultsService) { }
 
-    // GET /results/1
-    @Get(':studentId')
-    getTeacher(@Param() params: GetStudentResultsDto) {
+    // GET /results/student/1
+    @Get('student/:studentId')
+    getResultByStudentId(@Param() params: GetStudentResultsDto) {
         return this.resultsService.getById(params.studentId);
     }
 }
