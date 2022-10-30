@@ -59,4 +59,33 @@ export class ResultsService {
         })
         return response
     }
+
+    async getByTestId(testId: number) {
+        const studentRepository = getRepository(Student);
+        let students = null;
+        await studentRepository.find({
+            relations: ['test'],
+            where: {
+                test: {
+                    id: testId
+                }
+            },
+        }).then(s => students = s);
+        let response = [];
+        for await (const student of students) {
+            let correctQuestions = 0;
+            let notCorrectQuestions = 0;
+            let questions = await this.getById(student.id);
+            questions.forEach(question => {
+                if (question.question.correct) correctQuestions++;
+                else notCorrectQuestions++;
+            })
+            response.push({
+                student: student.login,
+                correctQuestions: correctQuestions,
+                notCorrectQuestions: notCorrectQuestions
+            })
+        }
+        return response;
+    }
 }
