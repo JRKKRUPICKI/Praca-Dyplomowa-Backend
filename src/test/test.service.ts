@@ -28,6 +28,17 @@ export class TestService {
         return test;
     }
 
+    getByTeacherId(teacherId: number) {
+        return this.repo.find({
+            relations: ['questions', 'students'],
+            where: {
+                teacher: {
+                    id: teacherId
+                }
+            }
+        });
+    }
+
     async add(name: string, teacherId: number, time: number, loginTimeStart: number, loginTimeEnd: number) {
         const teacherRepository = getRepository(Teacher);
         let teacher = null;
