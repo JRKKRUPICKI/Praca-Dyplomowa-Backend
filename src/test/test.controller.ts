@@ -1,10 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { AddTestDto } from "./dto/add-test.dto";
 import { EditTestDto } from "./dto/edit-test.dto";
 import { GetTestTeacherDto } from "./dto/get-test-teacher.dto";
 import { GetTestDto } from "./dto/get-test.dto";
 import { TestService } from "./test.service";
 
+@ApiTags('test')
 @Controller('test')
 export class TestController {
     constructor(private testService: TestService) { }

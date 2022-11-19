@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { AddLogDto } from "./dto/add-log.dto";
 import { GetLogDto } from "./dto/get-log.dto";
 import { LogService } from "./log.service";
 
+@ApiTags('logs')
 @Controller('logs')
 export class LogController {
     constructor(private logService: LogService) { }
