@@ -97,7 +97,21 @@ export class QuestionService {
             }
         }).then(t => test = t);
         if (!test) throw new HttpException('Test not found', HttpStatus.BAD_REQUEST);
-        test.questions.forEach(q => q.answers.forEach(a => delete a.correct))
+        test.questions.forEach(q => {
+            q.answers.forEach(a => delete a.correct);
+            for (let i = q.answers.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let temp = q.answers[i];
+                q.answers[i] = q.answers[j];
+                q.answers[j] = temp;
+            }
+        });
+        for (let i = test.questions.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = test.questions[i];
+            test.questions[i] = test.questions[j];
+            test.questions[j] = temp;
+        }
         return test;
     }
 }

@@ -18,6 +18,9 @@ export class ResultsService {
                     id: studentId
                 }
             },
+            order: {
+                question: 'ASC'
+            }
 
         }).then(sa => studentAnswers = sa);
         if (!studentAnswers) throw new HttpException('Student results not found', HttpStatus.BAD_REQUEST);
